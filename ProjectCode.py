@@ -85,7 +85,7 @@ print('\nStatistics of parking:\n',
     f'Range: {max(df['parking'])-min(df['parking'])}')
 
 print('There are ',df['mainroad'].value_counts()['yes'], ' houses connected to the mainroad.\n')
-print('There are ',df['guestroom'].value_counts()['yes'], ' houses connected that have a guestroom.\n')
+print('There are ',df['guestroom'].value_counts()['yes'], ' houses that have a guestroom.\n')
 print('There are ',df['basement'].value_counts()['yes'], ' houses that have a basement.\n')
 print('There are ',df['hotwaterheating'].value_counts()['yes'], ' houses with a water heating system.\n')
 print('There are ',df['airconditioning'].value_counts()['yes'], ' houses with an air conditioning system.\n')
@@ -94,8 +94,25 @@ print('There are ',df['furnishingstatus'].value_counts()['furnished'], ' furnish
     df['furnishingstatus'].value_counts()['semi-furnished'],' partially furnished houses, and ',
     df['furnishingstatus'].value_counts()['unfurnished'], ' unfurnished houses.')
 
+values = pd.DataFrame({ 
+    'price' : df['price'], 
+    'area' : df['area'], 
+    'stories' : df['stories'], 
+    'bathrooms' : df['bathrooms'] 
+}) 
 
-#plt.show(plt.hist(df['price']))
+hist = values.hist(bins=8) 
+plt.show()
+#df['price'].hist(bins=10)
+#plt.xlabel('price') 
+#plt.ylabel('Frequency')
+#plt.show()
+
+#df['area'].hist(bins=10)
+#plt.xlabel('area') 
+#plt.ylabel('Frequency')
+#plt.show()
+
 #plt.show(plt.hist(df['area']))
 #plt.show(plt.hist(df['bathrooms']))
 #plt.show(plt.hist(df['stories']))
