@@ -12,7 +12,7 @@ import scipy.stats as st
 import matplotlib.pyplot as plt
 import_or_install('pingouin') # We need this library to have our normality test graph
 import pingouin as pg
-import statistics as st
+import statistics as sta
 
 path = 'https://raw.githubusercontent.com/prof-apartida/data-exercises/main/'
 df = pd.read_csv(path+'Housing1.csv')
@@ -34,8 +34,8 @@ print('\nfurnishingstatus is a categorical variable that indicates the furnishin
 
 
 #df.describe().apply(lambda s: s.apply('{0:.5f}'.format))
-median_price = st.median(df['price'])
-mode_price = st.mode(df['price'])
+median_price = sta.median(df['price'])
+mode_price = sta.mode(df['price'])
 IQR_price = np.percentile(df['price'], 75) - np.percentile(df['price'], 25)
 print('\nStatistics of price:\n',
     df['price'].describe().apply(lambda x: format(x, 'f')), '\n', 
@@ -44,8 +44,8 @@ print('\nStatistics of price:\n',
     f'IQR: {IQR_price}','\n',
     f'Range: {max(df['price'])-min(df["price"])}')
 
-median_area = st.median(df['area'])
-mode_area = st.mode(df['area'])
+median_area = sta.median(df['area'])
+mode_area = sta.mode(df['area'])
 IQR_area = np.percentile(df['area'], 75) - np.percentile(df['area'], 25)
 print('\nStatistics of area:\n',
     df['area'].describe().apply(lambda x: format(x, 'f')), '\n', 
@@ -54,8 +54,8 @@ print('\nStatistics of area:\n',
     f'IQR: {IQR_area}','\n',
     f'Range: {max(df['area'])-min(df["area"])}')
 
-median_bathrooms = st.median(df['bathrooms'])
-mode_bathrooms = st.mode(df['bathrooms'])
+median_bathrooms = sta.median(df['bathrooms'])
+mode_bathrooms = sta.mode(df['bathrooms'])
 IQR_bathrooms = np.percentile(df['bathrooms'], 75) - np.percentile(df['bathrooms'], 25)
 print('\nStatistics of bathrooms:\n',
     df['bathrooms'].describe().apply(lambda x: format(x, 'f')), '\n', 
@@ -64,8 +64,8 @@ print('\nStatistics of bathrooms:\n',
     f'IQR: {IQR_bathrooms}','\n',
     f'Range: {max(df['bathrooms'])-min(df["bathrooms"])}')
 
-median_stories = st.median(df['stories'])
-mode_stories = st.mode(df['stories'])
+median_stories = sta.median(df['stories'])
+mode_stories = sta.mode(df['stories'])
 IQR_stories = np.percentile(df['stories'], 75) - np.percentile(df['stories'], 25)
 print('\nStatistics of stories:\n',
     df['stories'].describe().apply(lambda x: format(x, 'f')), '\n', 
@@ -74,8 +74,8 @@ print('\nStatistics of stories:\n',
     f'IQR: {IQR_stories}','\n',
     f'Range: {max(df['stories'])-min(df['stories'])}')
 
-median_parking = st.median(df['parking'])
-mode_parking = st.mode(df['parking'])
+median_parking = sta.median(df['parking'])
+mode_parking = sta.mode(df['parking'])
 IQR_parking = np.percentile(df['parking'], 75) - np.percentile(df['parking'], 25)
 print('\nStatistics of parking:\n',
     df['parking'].describe().apply(lambda x: format(x, 'f')), '\n', 
@@ -103,17 +103,87 @@ values = pd.DataFrame({
 
 hist = values.hist(bins=8) 
 plt.show()
-#df['price'].hist(bins=10)
-#plt.xlabel('price') 
-#plt.ylabel('Frequency')
-#plt.show()
 
-#df['area'].hist(bins=10)
-#plt.xlabel('area') 
-#plt.ylabel('Frequency')
-#plt.show()
 
-#plt.show(plt.hist(df['area']))
-#plt.show(plt.hist(df['bathrooms']))
-#plt.show(plt.hist(df['stories']))
-#plt.show(plt.hist(df['parking']))
+houses_with_mainroad = len(df[(df['mainroad']== 'yes')])
+houses_without_mainroad = 272 - houses_with_mainroad
+
+fig, ax = plt.subplots()
+ax.pie([houses_with_mainroad, houses_without_mainroad], labels=['With Mainroad', 'No Mainroad'], autopct='%1.1f%%')
+plt.show()
+
+houses_with_guestroom = len(df[(df['guestroom']== 'yes')])
+houses_without_guestroom = 272 - houses_with_guestroom
+
+fig, ax = plt.subplots()
+ax.pie([houses_with_guestroom, houses_without_guestroom], labels=['With Guestroom', 'No Guestroom'], autopct='%1.1f%%')
+plt.show()
+
+houses_with_basement = len(df[(df['basement']== 'yes')])
+houses_without_basement = 272 - houses_with_basement
+
+fig, ax = plt.subplots()
+ax.pie([houses_with_basement, houses_without_basement], labels=['With Basement', 'No Basement'], autopct='%1.1f%%')
+plt.show()
+
+houses_with_hotwaterheating = len(df[(df['hotwaterheating']== 'yes')])
+houses_without_hotwaterheating = 272 - houses_with_hotwaterheating
+
+fig, ax = plt.subplots()
+ax.pie([houses_with_hotwaterheating, houses_without_hotwaterheating], labels=['With Hot Water Heating', 'No Hot Water Heating'], autopct='%1.1f%%')
+plt.show()
+
+
+houses_with_airconditioning = len(df[(df['airconditioning']== 'yes')])
+houses_without_airconditioning = 272 - houses_with_airconditioning
+
+fig, ax = plt.subplots()
+ax.pie([houses_with_airconditioning, houses_without_airconditioning], labels=['With Air Conditioning', 'No Air Conditioning'], autopct='%1.1f%%')
+plt.show()
+
+houses_with_prefarea = len(df[(df['prefarea']== 'yes')])
+houses_without_prefarea = 272 - houses_with_prefarea
+
+fig, ax = plt.subplots()
+ax.pie([houses_with_prefarea, houses_without_prefarea], labels=['In Preferred Neighbourhood', 'No Preferred Neighbourhood'], autopct='%1.1f%%')
+plt.show()
+
+houses_furnished = len(df[(df['furnishingstatus']== 'furnished')])
+houses_semifurnished = len(df[(df['furnishingstatus']== 'semi-furnished')])
+houses_unfurnished = len(df[(df['furnishingstatus']== 'unfurnished')])
+
+fig, ax = plt.subplots()
+ax.pie([houses_furnished, houses_semifurnished, houses_unfurnished], labels=['Furnished', 'Semi-furnished','Unfurnished'], autopct='%1.1f%%')
+plt.show()
+
+# Define the variables and their values
+N = 272 # Population size
+CL = 0.95 # Confidence level
+p = 0.5 # Standard Deviation. If unknown, leave it as 0.5
+e = 0.05 # Margin of error
+
+alpha_half = (1-CL)/2
+Z_score = st.norm.ppf(alpha_half+CL)
+
+n = ((Z_score**2)*p*(1-p))/e**2 # Sample size for an unlimited population (remember, the small n)
+sample_size = n/(1+(((Z_score**2)*p*(1-p))/((e**2)*N))) # Sample size for a limited population
+
+print('\nSample size for a population of',N,'elements =',sample_size)
+
+sample_houses = df.sample(n=159)
+
+print(sample_houses.head())
+
+##going to calculate mean for price, area and bedrooms; then for every confidence
+##interval, will check if the population mean falls there.
+
+mean_sample_price = sta.mean(sample_houses['price'])
+sd_sample_price = sta.mean(sample_houses['price'])
+mean_sample_area = sta.mean(sample_houses['area'])
+sd_sample_area =
+mean_sample_bedrooms = sta.mean(sample_houses['bedrooms'])
+sd_sample_bedrooms =
+
+print(mean_sample_price)
+print(mean_sample_area)
+print(mean_sample_bedrooms)
