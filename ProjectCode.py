@@ -34,6 +34,20 @@ print('\nfurnishingstatus is a categorical variable that indicates the furnishin
 
 
 #df.describe().apply(lambda s: s.apply('{0:.5f}'.format))
+
+#################
+
+
+### INTELIGENT WAY TO DO IT
+###def print_stats(df,variable):
+###  print('Min:',df[variable].min())
+###  print('Max:',df[variable].max())
+###  print('Mean:',df[variable].mean())
+###  print('SD:',df[variable].std())
+
+
+###################
+
 median_price = sta.median(df['price'])
 mode_price = sta.mode(df['price'])
 IQR_price = np.percentile(df['price'], 75) - np.percentile(df['price'], 25)
@@ -177,13 +191,28 @@ print(sample_houses.head())
 ##going to calculate mean for price, area and bedrooms; then for every confidence
 ##interval, will check if the population mean falls there.
 
-mean_sample_price = sta.mean(sample_houses['price'])
-sd_sample_price = sta.mean(sample_houses['price'])
-mean_sample_area = sta.mean(sample_houses['area'])
-sd_sample_area =
-mean_sample_bedrooms = sta.mean(sample_houses['bedrooms'])
-sd_sample_bedrooms =
+n=159
 
-print(mean_sample_price)
-print(mean_sample_area)
-print(mean_sample_bedrooms)
+mean_sample_price = sta.mean(sample_houses['price'])
+sd_sample_price = sta.stdev(sample_houses['price'])
+mean_sample_area = sta.mean(sample_houses['area'])
+sd_sample_area = sta.stdev(sample_houses['area'])
+mean_sample_bedrooms = sta.mean(sample_houses['bedrooms'])
+sd_sample_bedrooms = sta.stdev(sample_houses['bedrooms'])
+
+## Z-score for two tailed 95% confidence level:
+z = st.norm.ppf(0.975)
+
+ci_interval_from = mean_sample_price-z*(sd_sample_price/math.sqrt(n))
+ci_interval_to = mean_sample_price+z*(sd_sample_price/math.sqrt(n))
+
+ci_interval_from = "{:,.2f}".format(ci_interval_from)
+ci_interval_to = "{:,.2f}".format(ci_interval_to)
+
+mean_price = sta.mean(df['price'])
+mean_price = "{:,.2f}".format(mean_price)
+
+
+##Confidence interval for mean of sample price:
+print(f'Confidence interval of mean price from {ci_interval_from} to {ci_interval_to}, compared to a population mean of {mean_price}.')
+
