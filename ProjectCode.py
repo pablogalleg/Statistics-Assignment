@@ -187,11 +187,13 @@ print('\nSample size for a population of',N,'elements =',sample_size)
 sample_houses = df.sample(n=159)
 
 print(sample_houses.head())
+n=160
+
 
 ##going to calculate mean for price, area and bedrooms; then for every confidence
 ##interval, will check if the population mean falls there.
 
-n=159
+
 
 mean_sample_price = sta.mean(sample_houses['price'])
 sd_sample_price = sta.stdev(sample_houses['price'])
@@ -203,16 +205,61 @@ sd_sample_bedrooms = sta.stdev(sample_houses['bedrooms'])
 ## Z-score for two tailed 95% confidence level:
 z = st.norm.ppf(0.975)
 
-ci_interval_from = mean_sample_price-z*(sd_sample_price/math.sqrt(n))
-ci_interval_to = mean_sample_price+z*(sd_sample_price/math.sqrt(n))
+ci_price_from = mean_sample_price-z*(sd_sample_price/math.sqrt(n))
+ci_price_to = mean_sample_price+z*(sd_sample_price/math.sqrt(n))
 
-ci_interval_from = "{:,.2f}".format(ci_interval_from)
-ci_interval_to = "{:,.2f}".format(ci_interval_to)
+ci_price_from = "{:,.2f}".format(ci_price_from)
+ci_price_to = "{:,.2f}".format(ci_price_to)
 
 mean_price = sta.mean(df['price'])
 mean_price = "{:,.2f}".format(mean_price)
 
 
 ##Confidence interval for mean of sample price:
-print(f'Confidence interval of mean price from {ci_interval_from} to {ci_interval_to}, compared to a population mean of {mean_price}.')
+print(f'Confidence interval of mean price from {ci_price_from} to {ci_price_to}, compared to a population mean of {mean_price}.')
 
+ci_area_from = mean_sample_area-z*(sd_sample_area/math.sqrt(n))
+ci_area_to = mean_sample_area+z*(sd_sample_area/math.sqrt(n))
+
+ci_area_from = "{:,.2f}".format(ci_area_from)
+ci_area_to = "{:,.2f}".format(ci_area_to)
+
+mean_area = sta.mean(df['area'])
+mean_area = "{:,.2f}".format(mean_area)
+
+
+##Confidence interval for mean of sample area:
+print(f'Confidence interval of mean area from {ci_area_from} to {ci_area_to}, compared to a population mean of {mean_area}.')
+
+ci_bedrooms_from = mean_sample_bedrooms-z*(sd_sample_bedrooms/math.sqrt(n))
+ci_bedrooms_to = mean_sample_bedrooms+z*(sd_sample_bedrooms/math.sqrt(n))
+
+ci_bedrooms_from = "{:,.2f}".format(ci_bedrooms_from)
+ci_bedrooms_to = "{:,.2f}".format(ci_bedrooms_to)
+
+mean_bedrooms = sta.mean(df['bedrooms'])
+mean_bedrooms = "{:,.2f}".format(mean_bedrooms)
+
+
+##Confidence interval for mean of sample bedrooms:
+print(f'Confidence interval of mean bedrooms from {ci_bedrooms_from} to {ci_bedrooms_to}, compared to a population mean of {mean_bedrooms}.')
+
+print('Normality tests for price')
+print("{:,.5f}".format(st.kstest(df['price'],'norm').pvalue))
+print("{:,.5f}".format(st.shapiro(df['price']).pvalue))
+print("{:,.5f}".format(st.jarque_bera(df['price']).pvalue))
+print("{:,.5f}".format(st.normaltest(df['price']).pvalue))
+print('With very low p-values for KS, Shapiro-Wilk, Jarque-Bera and Anderson-Darling (st.normaltest), \nwe can reject the null hypothesis that variable follows a normal distribution.')
+print('\n We can go even further and ilustrate the point:')
+
+plt.show(pg.qqplot(df['price'], dist='norm', confidence=.95))
+
+print('Normality tests for area')
+print("{:,.5f}".format(st.kstest(df['area'],'norm').pvalue))
+print("{:,.5f}".format(st.shapiro(df['area']).pvalue))
+print("{:,.5f}".format(st.jarque_bera(df['area']).pvalue))
+print("{:,.5f}".format(st.normaltest(df['area']).pvalue))
+print('Area shows very low p-values as well, which means we can reject the null hypothesis that the variable follows a normal distribution.')
+print('\n The illustration is similar to price:')
+
+plt.show(pg.qqplot(df['area'], dist='norm', confidence=.95))
